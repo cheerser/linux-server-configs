@@ -1,0 +1,1 @@
+pg_dumpall > ./$(date +"%Y-%m-%d")_pg_all.sql

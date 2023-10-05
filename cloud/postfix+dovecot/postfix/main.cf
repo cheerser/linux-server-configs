@@ -1,0 +1,52 @@
+smtpd_banner='ESMTP'
+
+## SMTPD收件
+
+# smtpd_tls_cert_file=/etc/letsencrypt/live/codefocus.fun/fullchain.pem
+# smtpd_tls_key_file=/etc/letsencrypt/live/codefocus.fun/privkey.pem
+smtpd_tls_chain_files = /home/ubuntu/certificates/localhost/privkey.pem, /home/ubuntu/certificates/localhost/cert.pem
+tls_server_sni_maps=hash:/etc/postfix/sni
+smtpd_tls_security_level=may
+smtpd_tls_loglevel=1
+smtpd_tls_received_header = yes
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination, check_policy_service unix:private/policyd-spf
+policyd-spf_time_limit = 3600
+
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+
+## SMTP发件
+
+smtp_tls_security_level=encrypt
+smtp_tls_loglevel=1
+
+## LOG
+
+maillog_file = /var/log/postfix.log
+
+## VirtualUser
+
+virtual_mailbox_domains = codefocus.fun
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+###############################################################################
+
+# 默认配置，列举如下（里面的注释不可用。当需要用时，删掉注释）：
+
+biff = no  # 本地biff服务，通知用户
+append_dot_mydomain = no # appending .domain is the MUA's job.
+readme_directory = no
+compatibility_level = 3.6 # See http://www.postfix.org/COMPATIBILITY_README.html -- default to 3.6
+
+myhostname = localhost
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = localhost.localdomain,localhost
+relayhost =
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 51200000
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = ipv4
+home_mailbox = Maildir/

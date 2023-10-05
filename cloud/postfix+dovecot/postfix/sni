@@ -1,0 +1,3 @@
+# 需要执行 sudo postmap -F /etc/postfix/sni 生成.db文件
+codefocus.fun   /etc/letsencrypt/live/codefocus.fun/privkey.pem, /etc/letsencrypt/live/codefocus.fun/fullchain.pem
+onemail.space   /etc/letsencrypt/live/onemail.space/privkey.pem, /etc/letsencrypt/live/onemail.space/fullchain.pem

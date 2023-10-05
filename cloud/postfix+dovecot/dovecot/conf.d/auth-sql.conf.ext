@@ -1,0 +1,9 @@
+passdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf.ext
+}
+
+userdb {
+  driver = static
+  args = uid=ubuntu gid=ubuntu home=/home/ubuntu
+}
